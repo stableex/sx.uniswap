@@ -1,0 +1,8 @@
+*.wasm
+*.abi
+stderr
+nodeos
+.vscode
+node_modules
+package-lock.json
+*.out

@@ -12,6 +12,10 @@ eosio-cpp basic.cpp
 # deploy
 cleos set contract basic . basic.wasm basic.abi
 
-# push
+# getAmountOut
 cleos push action basic getamountout '[10000, 45851931234, 125682033533]' -p basic
 # //=> 27328
+
+# getAmountIn
+cleos push action basic getamountin '[27328, 45851931234, 125682033533]' -p basic
+# //=> 10000

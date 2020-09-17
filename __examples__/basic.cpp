@@ -14,4 +14,10 @@ public:
         const uint64_t amountOut = uniswap::getAmountOut( amountIn, reserveIn, reserveOut );
         print( amountOut );
     }
+
+    [[eosio::action]]
+    void getamountin( const uint64_t amountOut, const uint64_t reserveIn, const uint64_t reserveOut ) {
+        const uint64_t amountIn = uniswap::getAmountIn( amountOut, reserveIn, reserveOut );
+        print( amountIn );
+    }
 };

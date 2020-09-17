@@ -10,11 +10,11 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 #include "uniswap.hpp"
 
 // Inputs
-const int64_t amountIn = 10000;
-const int64_t reserveIn = 45851931234;
-const int64_t reserveOut = 125682033533;
+const uint64_t amountIn = 10000;
+const uint64_t reserveIn = 45851931234;
+const uint64_t reserveOut = 125682033533;
 
 // Calculation
-const int64_t amountOut = uniswap::getAmountOut( amountIn, reserveIn, reserveOut );
+const uint64_t amountOut = uniswap::getAmountOut( amountIn, reserveIn, reserveOut );
 // => 27328
 ```

@@ -1,5 +1,37 @@
 namespace uniswap {
     /**
+     * ## STATIC `quote`
+     *
+     * Given some amount of an asset and pair reserves, returns an equivalent amount of the other asset
+     *
+     * ### params
+     *
+     * - `{uint64_t} amountA` - amount A
+     * - `{uint64_t} reserveA` - reserve A
+     * - `{uint64_t} reserveB` - reserve B
+     *
+     * ### example
+     *
+     * ```c++
+     * // Inputs
+     * const uint64_t amountA = 10000;
+     * const uint64_t reserveA = 45851931234;
+     * const uint64_t reserveB = 125682033533;
+     *
+     * // Calculation
+     * const uint64_t amountB = uniswap::quote( amountA, reserveA, reserveB );
+     * // => 27410
+     * ```
+     */
+    uint64_t quote( const uint64_t amountA, uint64_t reserveA, uint64_t reserveB)
+    {
+        eosio::check(amountA > 0, "UniswapV2Library: INSUFFICIENT_AMOUNT");
+        eosio::check(reserveA > 0 && reserveB > 0, "UniswapV2Library: INSUFFICIENT_LIQUIDITY");
+        const uint64_t amountB = amountA * reserveB / reserveA;
+        return amountB;
+    }
+
+    /**
      * ## STATIC `getAmountOut`
      *
      * Given an input amount of an asset and pair reserves, returns the maximum output amount of the other asset

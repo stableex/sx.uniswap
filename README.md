@@ -14,8 +14,32 @@ uniswap::getAmountOut( amountIn, reserveIn, reserveOut );
 
 ## Table of Content
 
+- [STATIC `quote`](#action-quote)
 - [STATIC `getAmountOut`](#action-getAmountOut)
 - [STATIC `getAmountIn`](#action-getAmountIn)
+
+## STATIC `quote`
+
+Given some amount of an asset and pair reserves, returns an equivalent amount of the other asset
+
+### params
+
+- `{uint64_t} amountA` - amount A
+- `{uint64_t} reserveA` - reserve A
+- `{uint64_t} reserveB` - reserve B
+
+### example
+
+```c++
+// Inputs
+const uint64_t amountA = 10000;
+const uint64_t reserveA = 45851931234;
+const uint64_t reserveB = 125682033533;
+
+// Calculation
+const uint64_t amountB = uniswap::quote( amountA, reserveA, reserveB );
+// => 27410
+```
 
 ## STATIC `getAmountOut`
 

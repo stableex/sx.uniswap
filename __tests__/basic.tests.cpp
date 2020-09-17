@@ -4,6 +4,18 @@
 #include "check.hpp"
 #include "../uniswap.hpp"
 
+TEST_CASE( "quote (pass)" ) {
+    // Inputs
+    const uint64_t amountA = 10000;
+    const uint64_t reserveA = 45851931234;
+    const uint64_t reserveB = 125682033533;
+
+    // Calculation
+    const uint64_t amountB = uniswap::quote( amountA, reserveA, reserveB );
+
+    REQUIRE( amountB == 27410 );
+}
+
 TEST_CASE( "getAmountOut (pass)" ) {
     // Inputs
     const uint64_t amountIn = 10000;

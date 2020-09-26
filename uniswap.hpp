@@ -1,3 +1,5 @@
+#pragma once
+
 namespace uniswap {
     /**
      * ## STATIC `getAmountOut`
@@ -99,4 +101,6 @@ namespace uniswap {
         const uint64_t amountB = static_cast<uint128_t>(amountA) * reserveB / reserveA;
         return amountB;
     }
+    // computeProfitMaximizingTrade
+    // https://github.com/Uniswap/uniswap-v2-periphery/blob/master/contracts/examples/ExampleSwapToPrice.sol#L24
 };

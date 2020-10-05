@@ -1,8 +1,8 @@
-# **`Uniswap V2`**
+# **`EOSIO Uniswap`**
 
 [![Build Status](https://travis-ci.org/stableex/sx.uniswap.svg?branch=master)](https://travis-ci.org/stableex/sx.uniswap)
 
-> 🎚 Peripheral EOSIO smart contracts for interacting with Uniswap V2
+> Peripheral EOSIO smart contracts for interacting with Uniswap V2
 
 ## Quickstart
 

@@ -19,6 +19,18 @@ const asset out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 // => "2.7328 USDT"
 ```
 
+## Price Formula
+
+```c++
+function get_amount_out( Argument amount_in, Argument reserve_in, Argument reserve_out ) {
+    amount_in_with_fee = amount_in * 997;
+    numerator = amount_in_with_fee * reserve_out;
+    denominator = reserve_in * 1000 + amount_in_with_fee;
+    amount_out = numerator / denominator;
+    return amount_out;
+}
+```
+
 ## Table of Content
 
 - [STATIC `get_amount_out`](#action-get_amount_out)

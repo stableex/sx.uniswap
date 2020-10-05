@@ -3,12 +3,15 @@
 #include <eosio/asset.hpp>
 
 #include <math.h>
-#include <string>
-
-using namespace eosio;
-using namespace std;
 
 namespace uniswap {
+
+    using eosio::asset;
+    using eosio::name;
+    using eosio::check;
+    using eosio::symbol;
+    using std::pair;
+
     /**
      * ## STATIC `asset_to_double`
      *
@@ -61,7 +64,7 @@ namespace uniswap {
      */
     static asset double_to_asset( const double amount, const symbol sym )
     {
-        return asset{ static_cast<int64_t>( round(amount * pow(10, sym.precision()))), sym };
+        return asset{ static_cast<int64_t>( amount * pow(10, sym.precision())), sym };
     }
 
     /**
@@ -71,8 +74,8 @@ namespace uniswap {
      *
      * ### params
      *
-     * - `{asset} tokenA` - token A
-     * - `{asset} tokenB` - token B
+     * - `{asset} a` - token A
+     * - `{asset} b` - token B
      *
      * ### returns
      *
@@ -82,19 +85,19 @@ namespace uniswap {
      *
      * ```c++
      * // Inputs
-     * const asset tokenA = asset{10000, symbol{"USDT", 4}};
-     * const asset tokenB = asset{10000, symbol{"EOS", 4}};
+     * const asset a = asset{10000, symbol{"USDT", 4}};
+     * const asset b = asset{10000, symbol{"EOS", 4}};
      *
      * // Sort
-     * const auto[ token0, token1 ] = uniswap::sort_tokens( tokenA, tokenB );
+     * const auto[ token0, token1 ] = uniswap::sort_tokens( a, b );
      * // token0 => "1.0000 EOS"
      * // token1 => "1.0000 USDT"
      * ```
      */
-    static pair<asset, asset> sort_tokens( const asset tokenA, const asset tokenB )
+    static pair<asset, asset> sort_tokens( const asset a, const asset b )
     {
-        check(tokenA.symbol != tokenB.symbol, "UniswapLibrary: IDENTICAL_ASSETS");
-        return tokenA.symbol < tokenB.symbol ? pair<asset, asset>{tokenA, tokenB} : pair<asset, asset>{tokenB, tokenA};
+        check(a.symbol != b.symbol, "UniswapLibrary: IDENTICAL_ASSETS");
+        return a.symbol < b.symbol ? pair<asset, asset>{a, b} : pair<asset, asset>{b, a};
     }
 
     /**
@@ -104,36 +107,36 @@ namespace uniswap {
      *
      * ### params
      *
-     * - `{asset} amountIn` - amount input
-     * - `{asset} reserveIn` - reserve input
-     * - `{asset} reserveOut` - reserve output
+     * - `{asset} amount_in` - amount input
+     * - `{asset} reserve_in` - reserve input
+     * - `{asset} reserve_out` - reserve output
      *
      * ### example
      *
      * ```c++
      * // Inputs
-     * const asset amountIn = asset{10000, symbol{"EOS", 4}};
-     * const asset reserveIn = asset{45851931234, symbol{"EOS", 4}};
-     * const asset reserveOut = asset{125682033533, symbol{"USDT", 4}};
+     * const asset amount_in = asset{10000, symbol{"EOS", 4}};
+     * const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
+     * const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
      *
      * // Calculation
-     * const asset amountOut = uniswap::get_amount_out( amountIn, reserveIn, reserveOut );
+     * const asset amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
      * // => "2.7328 USDT"
      * ```
      */
-    static asset get_amount_out( const asset amountIn, const asset reserveIn, const asset reserveOut )
+    static asset get_amount_out( const asset amount_in, const asset reserve_in, const asset reserve_out )
     {
         // checks
-        check(amountIn.amount > 0, "UniswapLibrary: INSUFFICIENT_INPUT_AMOUNT");
-        check(reserveIn.amount > 0 && reserveOut.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
+        check(amount_in.amount > 0, "UniswapLibrary: INSUFFICIENT_INPUT_AMOUNT");
+        check(reserve_in.amount > 0 && reserve_out.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
 
         // calculations
-        const double amountInWithFee = uniswap::asset_to_double(amountIn) * 9970;
-        const double numerator = amountInWithFee * uniswap::asset_to_double(reserveOut);
-        const double denominator = uniswap::asset_to_double(reserveIn) * 10000 + amountInWithFee;
-        const double amountOut = numerator / denominator;
+        const double amount_in_with_fee = uniswap::asset_to_double(amount_in) * 997;
+        const double numerator = amount_in_with_fee * uniswap::asset_to_double(reserve_out);
+        const double denominator = uniswap::asset_to_double(reserve_in) * 1000 + amount_in_with_fee;
+        const double amount_out = numerator / denominator;
 
-        return uniswap::double_to_asset( amountOut, reserveOut.symbol );
+        return uniswap::double_to_asset( amount_out, reserve_out.symbol );
     }
 
     /**
@@ -143,34 +146,34 @@ namespace uniswap {
      *
      * ### params
      *
-     * - `{asset} amountIn` - amount input
-     * - `{asset} reserveIn` - reserve input
+     * - `{asset} amount_out` - amount input
+     * - `{asset} reserve_in` - reserve input
      * - `{asset} reserveOut` - reserve output
      *
      * ### example
      *
      * ```c++
      * // Inputs
-     * const asset amountOut = asset{27328, symbol{"USDT", 4}};
-     * const asset reserveIn = asset{45851931234, symbol{"EOS", 4}};
-     * const asset reserveOut = asset{125682033533, symbol{"USDT", 4}};
+     * const asset amount_out = asset{27328, symbol{"USDT", 4}};
+     * const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
+     * const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
      *
      * // Calculation
-     * const asset amountIn = uniswap::get_amount_in( amountOut, reserveIn, reserveOut );
+     * const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
      * // => "1.0000 EOS"
      * ```
      */
-    static asset get_amount_in( const asset amountOut, const asset reserveIn, const asset reserveOut )
+    static asset get_amount_in( const asset amount_out, const asset reserve_in, const asset reserve_out )
     {
         // checks
-        check(amountOut.amount > 0, "UniswapLibrary: INSUFFICIENT_OUTPUT_AMOUNT");
-        check(reserveIn.amount > 0 && reserveOut.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
+        check(amount_out.amount > 0, "UniswapLibrary: INSUFFICIENT_OUTPUT_AMOUNT");
+        check(reserve_in.amount > 0 && reserve_out.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
 
-        const double numerator = uniswap::asset_to_double(reserveIn) * uniswap::asset_to_double(amountOut) * 10000;
-        const double denominator = (uniswap::asset_to_double(reserveOut) - uniswap::asset_to_double(amountOut)) * 9970;
-        const double amountIn = (numerator / denominator);
+        const double numerator = uniswap::asset_to_double(reserve_in) * uniswap::asset_to_double(amount_out) * 1000;
+        const double denominator = (uniswap::asset_to_double(reserve_out) - uniswap::asset_to_double(amount_out)) * 997;
+        const double amount_in = numerator / denominator;
 
-        return uniswap::double_to_asset( amountIn, reserveIn.symbol );
+        return uniswap::double_to_asset( amount_in, reserve_in.symbol );
     }
 
     /**
@@ -180,28 +183,28 @@ namespace uniswap {
      *
      * ### params
      *
-     * - `{asset} amountA` - amount A
-     * - `{asset} reserveA` - reserve A
-     * - `{asset} reserveB` - reserve B
+     * - `{asset} amount_a` - amount A
+     * - `{asset} reserve_a` - reserve A
+     * - `{asset} reserve_b` - reserve B
      *
      * ### example
      *
      * ```c++
      * // Inputs
-     * const asset amountA = asset{10000, symbol{"EOS", 4}};
-     * const asset reserveA = asset{45851931234, symbol{"EOS", 4}};
-     * const asset reserveB = asset{125682033533, symbol{"USDT", 4}};
+     * const asset amount_a = asset{10000, symbol{"EOS", 4}};
+     * const asset reserve_a = asset{45851931234, symbol{"EOS", 4}};
+     * const asset reserve_b = asset{125682033533, symbol{"USDT", 4}};
      *
      * // Calculation
-     * const asset amountB = uniswap::quote( amountA, reserveA, reserveB );
+     * const asset amount_b = uniswap::quote( amount_a, reserve_a, reserve_b );
      * // => "2.7410 USDT"
      * ```
      */
-    static asset quote( const asset amountA, const asset reserveA, const asset reserveB )
+    static asset quote( const asset amount_a, const asset reserve_a, const asset reserve_b )
     {
-        check(amountA.amount > 0, "UniswapLibrary: INSUFFICIENT_AMOUNT");
-        check(reserveA.amount > 0 && reserveB.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
-        const double amountB = uniswap::asset_to_double( amountA ) * uniswap::asset_to_double( reserveB ) / uniswap::asset_to_double( reserveA );
-        return uniswap::double_to_asset( amountB, reserveB.symbol );
+        check(amount_a.amount > 0, "UniswapLibrary: INSUFFICIENT_AMOUNT");
+        check(reserve_a.amount > 0 && reserve_b.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
+        const double amount_b = uniswap::asset_to_double( amount_a ) * uniswap::asset_to_double( reserve_b ) / uniswap::asset_to_double( reserve_a );
+        return uniswap::double_to_asset( amount_b, reserve_b.symbol );
     }
 }

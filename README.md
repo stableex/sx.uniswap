@@ -9,7 +9,7 @@
 ```c++
 #include "uniswap.hpp"
 
-uniswap::get_amount_out( amountIn, reserveIn, reserveOut );
+uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 ```
 
 ## Table of Content
@@ -27,20 +27,20 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 
 ### params
 
-- `{asset} amountIn` - amount input
-- `{asset} reserveIn` - reserve input
-- `{asset} reserveOut` - reserve output
+- `{asset} amount_in` - amount input
+- `{asset} reserve_in` - reserve input
+- `{asset} reserve_out` - reserve output
 
 ### example
 
 ```c++
 // Inputs
-const asset amountIn = asset{10000, symbol{"EOS", 4}};
-const asset reserveIn = asset{45851931234, symbol{"EOS", 4}};
-const asset reserveOut = asset{125682033533, symbol{"USDT", 4}};
+const asset amount_in = asset{10000, symbol{"EOS", 4}};
+const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
+const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
 
 // Calculation
-const asset amountOut = uniswap::get_amount_out( amountIn, reserveIn, reserveOut );
+const asset amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 // => "2.7328 USDT"
 ```
 
@@ -50,20 +50,20 @@ Given an output amount of an asset and pair reserves, returns a required input a
 
 ### params
 
-- `{asset} amountIn` - amount input
-- `{asset} reserveIn` - reserve input
-- `{asset} reserveOut` - reserve output
+- `{asset} amount_in` - amount input
+- `{asset} reserve_in` - reserve input
+- `{asset} reserve_out` - reserve output
 
 ### example
 
 ```c++
 // Inputs
-const asset amountOut = asset{27328, symbol{"USDT", 4}};
-const asset reserveIn = asset{45851931234, symbol{"EOS", 4}};
-const asset reserveOut = asset{125682033533, symbol{"USDT", 4}};
+const asset amount_out = asset{27328, symbol{"USDT", 4}};
+const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
+const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
 
 // Calculation
-const asset amountIn = uniswap::get_amount_in( amountOut, reserveIn, reserveOut );
+const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
 // => "1.0000 EOS"
 ```
 
@@ -73,20 +73,20 @@ Given some amount of an asset and pair reserves, returns an equivalent amount of
 
 ### params
 
-- `{asset} amountA` - amount A
-- `{asset} reserveA` - reserve A
-- `{asset} reserveB` - reserve B
+- `{asset} amount_a` - amount A
+- `{asset} reserve_a` - reserve A
+- `{asset} reserve_b` - reserve B
 
 ### example
 
 ```c++
 // Inputs
-const asset amountA = asset{10000, symbol{"EOS", 4}};
-const asset reserveA = asset{45851931234, symbol{"EOS", 4}};
-const asset reserveB = asset{125682033533, symbol{"USDT", 4}};
+const asset amount_a = asset{10000, symbol{"EOS", 4}};
+const asset reserve_a = asset{45851931234, symbol{"EOS", 4}};
+const asset reserve_b = asset{125682033533, symbol{"USDT", 4}};
 
 // Calculation
-const asset amountB = uniswap::quote( amountA, reserveA, reserveB );
+const asset amountB = uniswap::quote( amount_a, reserve_a, reserve_b );
 // => "2.7410 USDT"
 ```
 
@@ -96,8 +96,8 @@ Returns sorted token assets, used to handle return values from pairs sorted in t
 
 ### params
 
-- `{asset} tokenA` - token A
-- `{asset} tokenB` - token B
+- `{asset} a` - token A
+- `{asset} b` - token B
 
 ### returns
 
@@ -107,11 +107,11 @@ Returns sorted token assets, used to handle return values from pairs sorted in t
 
 ```c++
 // Inputs
-const asset tokenA = asset{10000, symbol{"USDT", 4}};
-const asset tokenB = asset{10000, symbol{"EOS", 4}};
+const asset a = asset{10000, symbol{"USDT", 4}};
+const asset b = asset{10000, symbol{"EOS", 4}};
 
 // Sort
-const auto[ token0, token1 ] = uniswap::sort_tokens( tokenA, tokenB );
+const auto[ token0, token1 ] = uniswap::sort_tokens( a, b );
 // token0 => "1.0000 EOS"
 // token1 => "1.0000 USDT"
 ```

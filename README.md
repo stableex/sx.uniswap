@@ -9,7 +9,14 @@
 ```c++
 #include "uniswap.hpp"
 
-uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+// Inputs
+const asset amount_in = asset{10000, symbol{"EOS", 4}};
+const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
+const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+
+// Calculation
+const asset out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+// => "2.7328 USDT"
 ```
 
 ## Table of Content

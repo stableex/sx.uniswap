@@ -107,6 +107,7 @@ namespace uniswap {
      * - `{asset} amount_in` - amount input
      * - `{asset} reserve_in` - reserve input
      * - `{asset} reserve_out` - reserve output
+     * - `{uint8_t} [fee=30]` - (optional) trading fee (pips 1/100 of 1%)
      *
      * ### example
      *
@@ -115,22 +116,23 @@ namespace uniswap {
      * const asset amount_in = asset{10000, symbol{"EOS", 4}};
      * const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
      * const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+     * const uint8_t fee = 30;
      *
      * // Calculation
      * const asset amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
      * // => "2.7328 USDT"
      * ```
      */
-    static asset get_amount_out( const asset amount_in, const asset reserve_in, const asset reserve_out )
+    static asset get_amount_out( const asset amount_in, const asset reserve_in, const asset reserve_out, const uint8_t fee = 30 )
     {
         // checks
         eosio::check(amount_in.amount > 0, "UniswapLibrary: INSUFFICIENT_INPUT_AMOUNT");
         eosio::check(reserve_in.amount > 0 && reserve_out.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
 
         // calculations
-        const double amount_in_with_fee = uniswap::asset_to_double(amount_in) * 997;
+        const double amount_in_with_fee = uniswap::asset_to_double(amount_in) * (10000 - fee);
         const double numerator = amount_in_with_fee * uniswap::asset_to_double(reserve_out);
-        const double denominator = uniswap::asset_to_double(reserve_in) * 1000 + amount_in_with_fee;
+        const double denominator = uniswap::asset_to_double(reserve_in) * 10000 + amount_in_with_fee;
         const double amount_out = numerator / denominator;
 
         return uniswap::double_to_asset( amount_out, reserve_out.symbol );
@@ -146,6 +148,7 @@ namespace uniswap {
      * - `{asset} amount_out` - amount input
      * - `{asset} reserve_in` - reserve input
      * - `{asset} reserveOut` - reserve output
+     * - `{uint8_t} [fee=30]` - (optional) trading fee (pips 1/100 of 1%)
      *
      * ### example
      *
@@ -154,20 +157,21 @@ namespace uniswap {
      * const asset amount_out = asset{27328, symbol{"USDT", 4}};
      * const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
      * const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+     * const uint8_t fee = 30;
      *
      * // Calculation
-     * const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
+     * const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out, fee );
      * // => "1.0000 EOS"
      * ```
      */
-    static asset get_amount_in( const asset amount_out, const asset reserve_in, const asset reserve_out )
+    static asset get_amount_in( const asset amount_out, const asset reserve_in, const asset reserve_out, const uint8_t fee = 30 )
     {
         // checks
         eosio::check(amount_out.amount > 0, "UniswapLibrary: INSUFFICIENT_OUTPUT_AMOUNT");
         eosio::check(reserve_in.amount > 0 && reserve_out.amount > 0, "UniswapLibrary: INSUFFICIENT_LIQUIDITY");
 
-        const double numerator = uniswap::asset_to_double(reserve_in) * uniswap::asset_to_double(amount_out) * 1000;
-        const double denominator = (uniswap::asset_to_double(reserve_out) - uniswap::asset_to_double(amount_out)) * 997;
+        const double numerator = uniswap::asset_to_double(reserve_in) * uniswap::asset_to_double(amount_out) * 10000;
+        const double denominator = (uniswap::asset_to_double(reserve_out) - uniswap::asset_to_double(amount_out)) * (10000 - fee);
         const double amount_in = numerator / denominator;
 
         return uniswap::double_to_asset( amount_in, reserve_in.symbol );

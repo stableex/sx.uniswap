@@ -13,19 +13,20 @@
 const asset amount_in = asset{10000, symbol{"EOS", 4}};
 const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
 const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+const uint8_t fee = 30;
 
 // Calculation
-const asset out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+const asset out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, fee );
 // => "2.7328 USDT"
 ```
 
 ## Pseudocode Price Formula
 
 ```c++
-function get_amount_out( Argument amount_in, Argument reserve_in, Argument reserve_out ) {
-    amount_in_with_fee = amount_in * 997;
+function get_amount_out( amount_in, reserve_in, reserve_out, fee ) {
+    amount_in_with_fee = amount_in * (10000 - fee);
     numerator = amount_in_with_fee * reserve_out;
-    denominator = reserve_in * 1000 + amount_in_with_fee;
+    denominator = reserve_in * 10000 + amount_in_with_fee;
     amount_out = numerator / denominator;
     return amount_out;
 }
@@ -49,6 +50,7 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 - `{asset} amount_in` - amount input
 - `{asset} reserve_in` - reserve input
 - `{asset} reserve_out` - reserve output
+- `{uint8_t} [fee=30]` - (optional) trading fee (pips 1/100 of 1%)
 
 ### example
 
@@ -57,9 +59,10 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 const asset amount_in = asset{10000, symbol{"EOS", 4}};
 const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
 const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+const uint8_t fee = 30;
 
 // Calculation
-const asset amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+const asset amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, fee );
 // => "2.7328 USDT"
 ```
 
@@ -72,6 +75,7 @@ Given an output amount of an asset and pair reserves, returns a required input a
 - `{asset} amount_in` - amount input
 - `{asset} reserve_in` - reserve input
 - `{asset} reserve_out` - reserve output
+- `{uint8_t} [fee=30]` - (optional) trading fee (pips 1/100 of 1%)
 
 ### example
 
@@ -80,9 +84,10 @@ Given an output amount of an asset and pair reserves, returns a required input a
 const asset amount_out = asset{27328, symbol{"USDT", 4}};
 const asset reserve_in = asset{45851931234, symbol{"EOS", 4}};
 const asset reserve_out = asset{125682033533, symbol{"USDT", 4}};
+const uint8_t fee = 30;
 
 // Calculation
-const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
+const asset amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out, fee );
 // => "1.0000 EOS"
 ```
 

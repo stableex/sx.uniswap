@@ -34,12 +34,12 @@ function get_amount_out( amount_in, reserve_in, reserve_out, fee ) {
 
 ## Table of Content
 
-- [STATIC `get_amount_out`](#action-get_amount_out)
-- [STATIC `get_amount_in`](#action-get_amount_in)
-- [STATIC `quote`](#action-quote)
-- [STATIC `sort_tokens`](#action-sort_tokens)
-- [STATIC `double_to_asset`](#action-double_to_asset)
-- [STATIC `asset_to_double`](#action-asset_to_double)
+- [STATIC `get_amount_out`](#static-get_amount_out)
+- [STATIC `get_amount_in`](#static-get_amount_in)
+- [STATIC `quote`](#static-quote)
+- [STATIC `sort_tokens`](#static-sort_tokens)
+- [STATIC `double_to_asset`](#static-double_to_asset)
+- [STATIC `asset_to_double`](#static-asset_to_double)
 
 ## STATIC `get_amount_out`
 

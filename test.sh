@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # compile
-g++ -std=c++11 -Wall -o basic.tests.out __tests__/basic.tests.cpp
+g++ -std=c++11 -Wall -o uniswap.t.out uniswap.t.cpp -I include
 
 # test
-./basic.tests.out --success
+./uniswap.t.out --success
 

@@ -1,4 +1,4 @@
-# **`EOSIO Uniswap`**
+# **`Uniswap`**
 
 [![Build Status](https://travis-ci.org/stableex/sx.uniswap.svg?branch=master)](https://travis-ci.org/stableex/sx.uniswap)
 

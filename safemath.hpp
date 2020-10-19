@@ -52,12 +52,12 @@ namespace safemath {
      * ### example
      *
      * ```c++
-     * const uint64_t z = safemath::mul(2, 2);
+     * const uint128_t z = safemath::mul(2, 2);
      * //=> 4
      * ```
      */
-    static uint64_t mul(const uint64_t x, const uint64_t y) {
-        const uint64_t z = x * y;
+    static uint128_t mul(const uint64_t x, const uint64_t y) {
+        const uint128_t z = static_cast<uint128_t>(x) * y;
         eosio::check(y == 0 || z / y == x, "safemath-mul-overflow"); return z;
     }
 

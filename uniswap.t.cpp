@@ -38,7 +38,7 @@ TEST_CASE( "get_amount_out #3 (pass)" ) {
 
     // Calculation
     const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
-    REQUIRE( amountOut == 99652 ); // 9.9204 EOS
+    REQUIRE( amountOut == 99652 ); // 9.9652 EOS
 }
 
 TEST_CASE( "get_amount_in (pass)" ) {

@@ -30,6 +30,17 @@ TEST_CASE( "get_amount_out #2 (pass)" ) {
     REQUIRE( amountOut == 373786282495 ); // 3737.86282495 PINK
 }
 
+TEST_CASE( "get_amount_out #3 (pass)" ) {
+    // Inputs
+    const uint64_t amount_in = 3734534447974; // 37345.34447974 PINK
+    const uint64_t reserve_in = 33593153629677144; // 335931536.29677144  PINK
+    const uint64_t reserve_out = 899196436; // 89919.6436 EOS
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+    REQUIRE( amountOut == 99652 ); // 9.9204 EOS
+}
+
 TEST_CASE( "get_amount_in (pass)" ) {
     // Inputs
     const uint64_t amount_out = 39876;

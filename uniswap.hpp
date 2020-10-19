@@ -36,9 +36,9 @@ namespace uniswap {
         eosio::check(reserve_in > 0 && reserve_out > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
 
         // calculations
-        const uint128_t amount_in_with_fee = safemath::mul( static_cast<uint128_t>(amount_in), (10000 - fee));
-        const uint128_t numerator = safemath::mul( amount_in_with_fee, reserve_out );
-        const uint128_t denominator = safemath::add( safemath::mul(reserve_in, 10000), amount_in_with_fee);
+        const double amount_in_with_fee = static_cast<double>(amount_in) * (10000 - fee);
+        const double numerator = amount_in_with_fee * reserve_out;
+        const double denominator = (static_cast<double>(reserve_in) * 10000) + amount_in_with_fee;
         const uint64_t amount_out = numerator / denominator;
 
         return amount_out;

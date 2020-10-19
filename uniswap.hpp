@@ -1,5 +1,7 @@
 #pragma once
 
+#include "safemath.hpp"
+
 namespace uniswap {
     /**
      * ## STATIC `get_amount_out`
@@ -34,9 +36,9 @@ namespace uniswap {
         eosio::check(reserve_in > 0 && reserve_out > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
 
         // calculations
-        const uint128_t amount_in_with_fee = static_cast<uint128_t>(amount_in) * (10000 - fee);
-        const uint128_t numerator = amount_in_with_fee * reserve_out;
-        const uint128_t denominator = reserve_in * 10000 + amount_in_with_fee;
+        const uint128_t amount_in_with_fee = safemath::mul( static_cast<uint128_t>(amount_in), (10000 - fee));
+        const uint128_t numerator = safemath::mul( amount_in_with_fee, reserve_out );
+        const uint128_t denominator = safemath::add( safemath::mul(reserve_in, 10000), amount_in_with_fee);
         const uint64_t amount_out = numerator / denominator;
 
         return amount_out;
@@ -74,9 +76,9 @@ namespace uniswap {
         eosio::check(amount_out > 0, "SX.Uniswap: INSUFFICIENT_OUTPUT_AMOUNT");
         eosio::check(reserve_in > 0 && reserve_out > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
 
-        const uint128_t numerator = static_cast<uint128_t>(reserve_in) * amount_out * 10000;
-        const uint128_t denominator = (reserve_out - amount_out) * (10000 - fee);
-        const uint64_t amount_in = numerator / denominator;
+        const uint128_t numerator = safemath::mul( safemath::mul( static_cast<uint128_t>(reserve_in), amount_out), 10000);
+        const uint128_t denominator = safemath::mul( safemath::sub(reserve_out, amount_out), (10000 - fee));
+        const uint64_t amount_in = safemath::add(numerator / denominator, 1);
 
         return amount_in;
     }
@@ -109,7 +111,7 @@ namespace uniswap {
     {
         eosio::check(amount_a > 0, "SX.Uniswap: INSUFFICIENT_AMOUNT");
         eosio::check(reserve_a > 0 && reserve_b > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
-        const uint64_t amount_b = amount_a * reserve_b / reserve_a;
+        const uint64_t amount_b = safemath::mul(amount_a, reserve_b) / reserve_a;
         return amount_b;
     }
 }

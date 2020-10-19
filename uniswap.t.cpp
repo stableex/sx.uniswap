@@ -27,7 +27,7 @@ TEST_CASE( "get_amount_in (pass)" ) {
     // Calculation
     const uint64_t amountIn = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
 
-    REQUIRE( amountIn == 9999 );
+    REQUIRE( amountIn == 10000 );
 }
 
 TEST_CASE( "quote (pass)" ) {

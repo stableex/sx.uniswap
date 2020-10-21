@@ -75,7 +75,7 @@ namespace uniswap {
      * // => 10000
      * ```
      */
-    static uint64_t get_amount_in( const uint64_t amount_out, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 20, const uint8_t protocol_fee 10 )
+    static uint64_t get_amount_in( const uint64_t amount_out, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 20, const uint8_t protocol_fee = 10 )
     {
         // checks
         eosio::check(amount_out > 0, "SX.Uniswap: INSUFFICIENT_OUTPUT_AMOUNT");

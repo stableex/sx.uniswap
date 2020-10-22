@@ -13,11 +13,10 @@
 const uint64_t amount_in = 10000;
 const uint64_t reserve_in = 45851931234;
 const uint64_t reserve_out = 125682033533;
-const uint8_t trade_fee = 20;
-const uint8_t protocol_fee = 10;
+const uint8_t fee = 30;
 
 // Calculation
-const uint64_t out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, trade_fee, protocol_fee );
+const uint64_t out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, fee );
 // => 27328
 ```
 
@@ -48,8 +47,7 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 - `{uint64_t} amount_in` - amount input
 - `{uint64_t} reserve_in` - reserve input
 - `{uint64_t} reserve_out` - reserve output
-- `{uint8_t} [trade_fee=0]` - (optional) trade fee (pips 1/100 of 1%)
-- `{uint8_t} [protocol_fee=0]` - (optional) protocol fee (pips 1/100 of 1%)
+- `{uint8_t} [fee=30]` - (optional) trade fee (pips 1/100 of 1%)
 
 ### example
 
@@ -58,11 +56,10 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 const uint64_t amount_in = 10000;
 const uint64_t reserve_in = 45851931234;
 const uint64_t reserve_out = 125682033533;
-const uint8_t trade_fee = 20;
-const uint8_t protocol_fee = 10;
+const uint8_t fee = 30;
 
 // Calculation
-const uint64_t amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, trade_fee, protocol_fee );
+const uint64_t amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, fee );
 // => 27328
 ```
 
@@ -75,8 +72,7 @@ Given an output amount of an asset and pair reserves, returns a required input a
 - `{uint64_t} amount_in` - amount input
 - `{uint64_t} reserve_in` - reserve input
 - `{uint64_t} reserve_out` - reserve output
-- `{uint8_t} [trade_fee=0]` - (optional) trade fee (pips 1/100 of 1%)
-- `{uint8_t} [protocol_fee=0]` - (optional) protocol fee (pips 1/100 of 1%)
+- `{uint8_t} [fee=30]` - (optional) trade fee (pips 1/100 of 1%)
 
 ### example
 
@@ -85,11 +81,10 @@ Given an output amount of an asset and pair reserves, returns a required input a
 const uint64_t amount_out = 27328;
 const uint64_t reserve_in = 45851931234;
 const uint64_t reserve_out = 125682033533;
-const uint8_t trade_fee = 20;
-const uint8_t protocol_fee = 10;
+const uint8_t fee = 30;
 
 // Calculation
-const uint64_t amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out, trade_fee, protocol_fee );
+const uint64_t amount_in = uniswap::get_amount_in( amount_out, reserve_in, reserve_out, fee );
 // => 10000
 ```
 

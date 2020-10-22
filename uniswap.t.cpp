@@ -6,7 +6,7 @@
 
 #include "uniswap.hpp"
 
-TEST_CASE( "get_amount_out (pass)" ) {
+TEST_CASE( "get_amount_out #1 (pass)" ) {
     // Inputs
     const uint64_t amount_in = 10000;
     const uint64_t reserve_in = 100000000;
@@ -27,7 +27,7 @@ TEST_CASE( "get_amount_out #2 (pass)" ) {
     // Calculation
     const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 
-    REQUIRE( amountOut == 373787032243 ); // 3737.87032243 PINK
+    REQUIRE( amountOut == 373786282495 ); // 37378.6282495 PINK
 }
 
 TEST_CASE( "get_amount_out #3 (pass)" ) {
@@ -43,18 +43,16 @@ TEST_CASE( "get_amount_out #3 (pass)" ) {
 
 TEST_CASE( "get_amount_out #4 (pass)" ) {
     // Inputs
-    const uint16_t protocol_fee = 10;
-    const uint16_t trade_fee = 20;
     const uint64_t amount_in = 10000;
     const uint64_t reserve_in = 45851931234;
     const uint64_t reserve_out = 125682033533;
 
     // Calculation
-    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, 20, 10);
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
     REQUIRE( amountOut == 27328 );
 }
 
-TEST_CASE( "get_amount_in (pass)" ) {
+TEST_CASE( "get_amount_in #1 (pass)" ) {
     // Inputs
     const uint64_t amount_out = 39876;
     const uint64_t reserve_in = 100000000;
@@ -63,6 +61,17 @@ TEST_CASE( "get_amount_in (pass)" ) {
     // Calculation
     const uint64_t amountIn = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
 
+    REQUIRE( amountIn == 10000 );
+}
+
+TEST_CASE( "get_amount_in #2 (pass)" ) {
+    // Inputs
+    const uint64_t amount_out = 373786282495;
+    const uint64_t reserve_in = 100669664;
+    const uint64_t reserve_out = 3774590382732755;
+
+    // Calculation
+    const uint64_t amountIn = uniswap::get_amount_in( amount_out, reserve_in, reserve_out );
     REQUIRE( amountIn == 10000 );
 }
 

@@ -13,8 +13,8 @@ namespace uniswap {
      * - `{uint64_t} amount_in` - amount input
      * - `{uint64_t} reserve_in` - reserve input
      * - `{uint64_t} reserve_out` - reserve output
-     * - `{uint8_t} [trade_fee=20]` - (optional) trade fee (pips 1/100 of 1%)
-     * - `{uint8_t} [protocol_fee=10]` - (optional) protocol fee (pips 1/100 of 1%)
+     * - `{uint8_t} [trade_fee=0]` - (optional) trade fee (pips 1/100 of 1%)
+     * - `{uint8_t} [protocol_fee=0]` - (optional) protocol fee (pips 1/100 of 1%)
      *
      * ### example
      *
@@ -31,7 +31,7 @@ namespace uniswap {
      * // => 27328
      * ```
      */
-    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 20, const uint8_t protocol_fee = 10 )
+    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 0, const uint8_t protocol_fee = 0 )
     {
         // checks
         eosio::check(amount_in > 0, "SX.Uniswap: INSUFFICIENT_INPUT_AMOUNT");
@@ -57,8 +57,8 @@ namespace uniswap {
      * - `{uint64_t} amount_out` - amount input
      * - `{uint64_t} reserve_in` - reserve input
      * - `{uint64_t} reserveOut` - reserve output
-     * - `{uint8_t} [trade_fee=20]` - (optional) trading fee (pips 1/100 of 1%)
-     * - `{uint8_t} [protocol_fee=10]` - (optional) trading fee (pips 1/100 of 1%)
+     * - `{uint8_t} [trade_fee=0]` - (optional) trading fee (pips 1/100 of 1%)
+     * - `{uint8_t} [protocol_fee=0]` - (optional) trading fee (pips 1/100 of 1%)
      *
      * ### example
      *
@@ -75,7 +75,7 @@ namespace uniswap {
      * // => 10000
      * ```
      */
-    static uint64_t get_amount_in( const uint64_t amount_out, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 20, const uint8_t protocol_fee = 10 )
+    static uint64_t get_amount_in( const uint64_t amount_out, const uint64_t reserve_in, const uint64_t reserve_out, const uint8_t trade_fee = 0, const uint8_t protocol_fee = 0 )
     {
         // checks
         eosio::check(amount_out > 0, "SX.Uniswap: INSUFFICIENT_OUTPUT_AMOUNT");

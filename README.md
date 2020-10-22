@@ -48,8 +48,8 @@ Given an input amount of an asset and pair reserves, returns the maximum output 
 - `{uint64_t} amount_in` - amount input
 - `{uint64_t} reserve_in` - reserve input
 - `{uint64_t} reserve_out` - reserve output
-- `{uint8_t} [trade_fee=20]` - (optional) trade fee (pips 1/100 of 1%)
-- `{uint8_t} [protocol_fee=10]` - (optional) protocol fee (pips 1/100 of 1%)
+- `{uint8_t} [trade_fee=0]` - (optional) trade fee (pips 1/100 of 1%)
+- `{uint8_t} [protocol_fee=0]` - (optional) protocol fee (pips 1/100 of 1%)
 
 ### example
 
@@ -75,8 +75,8 @@ Given an output amount of an asset and pair reserves, returns a required input a
 - `{uint64_t} amount_in` - amount input
 - `{uint64_t} reserve_in` - reserve input
 - `{uint64_t} reserve_out` - reserve output
-- `{uint8_t} [trade_fee=20]` - (optional) trade fee (pips 1/100 of 1%)
-- `{uint8_t} [protocol_fee=10]` - (optional) protocol fee (pips 1/100 of 1%)
+- `{uint8_t} [trade_fee=0]` - (optional) trade fee (pips 1/100 of 1%)
+- `{uint8_t} [protocol_fee=0]` - (optional) protocol fee (pips 1/100 of 1%)
 
 ### example
 

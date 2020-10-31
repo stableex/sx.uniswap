@@ -1,6 +1,6 @@
 #pragma once
 
-#include "safemath.hpp"
+#include <sx.safemath/safemath.hpp>
 
 namespace uniswap {
     /**

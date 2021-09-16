@@ -86,3 +86,29 @@ TEST_CASE( "quote (pass)" ) {
 
     REQUIRE( amount_b == 40000 );
 }
+
+TEST_CASE( "get_amount_out Defibox #1 (pass)" ) {
+    // Inputs
+    const uint64_t amount_in = 1000;
+    const uint64_t reserve_in = 47563210;
+    const uint64_t reserve_out = 48270636583184845;
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+
+    // REQUIRE( amountOut == 1011809599026  );
+    REQUIRE( amountOut == 1011807569364  );
+}
+
+TEST_CASE( "get_amount_out Defibox #2 (pass)" ) {
+    // Inputs
+    const uint64_t amount_in = 508947582090;
+    const uint64_t reserve_in = 48269624773585819;
+    const uint64_t reserve_out = 47564209;
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+
+    // REQUIRE( amountOut == 78209  );
+    REQUIRE( amountOut == 499  );
+}

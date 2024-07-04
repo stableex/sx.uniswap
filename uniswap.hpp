@@ -13,7 +13,8 @@ namespace uniswap {
      * - `{uint64_t} amount_in` - amount input
      * - `{uint64_t} reserve_in` - reserve input
      * - `{uint64_t} reserve_out` - reserve output
-     * - `{uint16_t} [fee=30]` - (optional) trade fee (pips 1/100 of 1%)
+     * - `{uint16_t} [fee=20]` - (optional) trade fee (pips 1/100 of 1%)
+     * - `{uint16_t} [protocol_fee=10]` - (optional) trade fee (pips 1/100 of 1%) fee deducted from input amount prior to trade
      *
      * ### example
      *
@@ -22,21 +23,23 @@ namespace uniswap {
      * const uint64_t amount_in = 10000;
      * const uint64_t reserve_in = 45851931234;
      * const uint64_t reserve_out = 125682033533;
-     * const uint16_t fee = 30;
+     * const uint16_t fee = 10;
+     * const uint16_t protocol_fee = 20;
      *
      * // Calculation
      * const uint64_t amount_out = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, fee );
      * // => 27328
      * ```
      */
-    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint16_t fee = 30 )
+    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint16_t fee = 20, const uint16_t protocol_fee = 10 )
     {
         // checks
         eosio::check(amount_in > 0, "SX.Uniswap: INSUFFICIENT_INPUT_AMOUNT");
         eosio::check(reserve_in > 0 && reserve_out > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
 
         // calculations
-        const uint128_t amount_in_with_fee = static_cast<uint128_t>(amount_in) * (10000 - fee);
+        const uint64_t protocol_fee_amount = amount_in * protocol_fee / 10000;
+        const uint128_t amount_in_with_fee = static_cast<uint128_t>(amount_in - protocol_fee_amount) * (10000 - fee);
         const uint128_t numerator = amount_in_with_fee * reserve_out;
         const uint128_t denominator = (static_cast<uint128_t>(reserve_in) * 10000) + amount_in_with_fee;
         const uint64_t amount_out = numerator / denominator;

@@ -25,7 +25,7 @@ TEST_CASE( "get_amount_out #2 (pass)" ) {
     const uint64_t reserve_out = 3774590382732755; // 37745903.82732755 PINK
 
     // Calculation
-    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out, 30, 0 );
 
     REQUIRE( amountOut == 373786282495 ); // 37378.6282495 PINK
 }
@@ -96,8 +96,7 @@ TEST_CASE( "get_amount_out Defibox #1 (pass)" ) {
     // Calculation
     const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 
-    // REQUIRE( amountOut == 1011809599026  );
-    REQUIRE( amountOut == 1011807569364  );
+    REQUIRE( amountOut == 1011809599026  );
 }
 
 TEST_CASE( "get_amount_out Defibox #2 (pass)" ) {
@@ -109,6 +108,31 @@ TEST_CASE( "get_amount_out Defibox #2 (pass)" ) {
     // Calculation
     const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
 
-    // REQUIRE( amountOut == 78209  );
-    REQUIRE( amountOut == 499  );
+    REQUIRE( amountOut == 500  );
+}
+
+TEST_CASE( "get_amount_out Defibox RAMS #3 (pass)" ) {
+    // https://eos.eosq.eosnation.io/tx/8420cf471010e58c9a152629dd3535aab7cb41f365f43e0855c644acbe7fd035
+    // Inputs
+    const uint64_t amount_in = 1047;
+    const uint64_t reserve_in = 65394;
+    const uint64_t reserve_out = 93823580;
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+
+    REQUIRE( amountOut == 1474206 );
+}
+
+TEST_CASE( "get_amount_out Defibox RAMS #4 (pass)" ) {
+    // https://eos.eosq.eosnation.io/tx/8420cf471010e58c9a152629dd3535aab7cb41f365f43e0855c644acbe7fd035
+    // Inputs
+    const uint64_t amount_in = 1500000;
+    const uint64_t reserve_in = 92827485;
+    const uint64_t reserve_out = 66092;
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+
+    REQUIRE( amountOut == 1047  );
 }

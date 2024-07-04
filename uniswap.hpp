@@ -37,8 +37,13 @@ namespace uniswap {
         eosio::check(amount_in > 0, "SX.Uniswap: INSUFFICIENT_INPUT_AMOUNT");
         eosio::check(reserve_in > 0 && reserve_out > 0, "SX.Uniswap: INSUFFICIENT_LIQUIDITY");
 
-        // calculations
-        const uint64_t protocol_fee_amount = amount_in * protocol_fee / 10000;
+        // round down protocol fees
+        // minimum 1
+        uint64_t protocol_fee_amount = amount_in * protocol_fee / 10000;
+        if (protocol_fee && protocol_fee_amount == 0) {
+            protocol_fee_amount = 1;
+        }
+
         const uint128_t amount_in_with_fee = static_cast<uint128_t>(amount_in - protocol_fee_amount) * (10000 - fee);
         const uint128_t numerator = amount_in_with_fee * reserve_out;
         const uint128_t denominator = (static_cast<uint128_t>(reserve_in) * 10000) + amount_in_with_fee;

@@ -136,3 +136,16 @@ TEST_CASE( "get_amount_out Defibox RAMS #4 (pass)" ) {
 
     REQUIRE( amountOut == 1047  );
 }
+
+TEST_CASE( "get_amount_out Defibox RAMS #5 (pass)" ) {
+    // https://eos.eosq.eosnation.io/tx/8420cf471010e58c9a152629dd3535aab7cb41f365f43e0855c644acbe7fd035
+    // Inputs
+    const uint64_t amount_in = 212;
+    const uint64_t reserve_in = 4779316;
+    const uint64_t reserve_out = 553900794;
+
+    // Calculation
+    const uint64_t amountOut = uniswap::get_amount_out( amount_in, reserve_in, reserve_out );
+
+    REQUIRE( amountOut == 24403  );
+}

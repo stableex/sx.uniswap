@@ -31,7 +31,7 @@ namespace uniswap {
      * // => 27328
      * ```
      */
-    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint16_t fee = 20, const uint16_t protocol_fee = 10 )
+    static uint64_t get_amount_out( const uint64_t amount_in, const uint64_t reserve_in, const uint64_t reserve_out, const uint16_t fee = 30, const uint16_t protocol_fee = 0 )
     {
         // checks
         eosio::check(amount_in > 0, "SX.Uniswap: INSUFFICIENT_INPUT_AMOUNT");
